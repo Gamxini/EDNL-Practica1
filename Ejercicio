@@ -1,0 +1,64 @@
+//Ejercicio para entrada y salida de un arbol
+
+#ifndef E_S_ABIN_H
+#define E_S_ABIN_H
+
+#include <iostream>
+using namespace std;
+
+template <typename T> 
+void leerAbin(Abin<T>& A, T flag){
+    cout << "Introduzca la raiz del arbol" << endl;
+    T aux;
+    cin >> aux;
+    if(aux != flag){
+        A.crearRaizB(aux);
+        leerDescendientes(A.raizB(),A,flag);
+    }    
+} 
+
+template <typename T> 
+void leerDescendientes (typename Abin<T>::nodo n, Abin<T>& A, T flag){
+    cout << "Introduzca el hijo izquierdo del nodo " << A.elemento(n) << endl;
+    T hijoizq, hijodcho;
+    cin >> hijoizq;
+    if(hijoizq != flag){
+        A.insertarHijoIzqdoB(n,hijoizq);
+        leerDescendientes(A.hijoIzqdoB(n),A,flag);
+    }
+    cout << "Introduzca el hijo derecho del nodo " << A.elemento(n) << endl;    
+    cin >> hijodcho;
+    if(hijodcho != flag){
+        A.insertarHijoDrchoB(n,hijodcho);
+        leerDescendientes(A.hijoDrchoB(n),A,flag);
+    }    
+}
+
+template <typename T>
+void imprimirAbin (const Abin<T>& A)
+{
+    if (!A.arbolVacioB()) {
+        std::cout << "Raiz del arbol: " << A.elemento(A.raizB()) << std::endl;
+        imprimirDescendientes(A.raizB(), A);
+    }
+    else
+        std::cout << "Arbol vacio\n";
+}
+
+
+template <typename T>
+void imprimirDescendientes (typename Abin<T>::nodo r, const Abin<T>& A)
+{
+    if (A.hijoIzqdoB(r) != Abin<T>::NODO_NULO) {
+    std::cout << "Hijo izqdo de " << A.elemento(r) << ": "
+        << A.elemento(A.hijoIzqdoB(r)) << std::endl;
+    imprimirDescendientes(A.hijoIzqdoB(r), A);
+    }
+    if (A.hijoDrchoB(r) != Abin<T>::NODO_NULO) {
+        std::cout << "Hijo derecho de " << A.elemento(r) << ": "
+                << A.elemento(A.hijoDrchoB(r)) << std::endl;
+        imprimirDescendientes(A.hijoDrchoB(r), A);
+    }
+}
+
+#endif
